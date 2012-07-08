@@ -16,7 +16,7 @@ namespace IpWatchDog
             if (args.Length == 0)
             {
                 Console.WriteLine("This is a service. Run with -h switch to see usage");
-                RunAsService();
+                Run(false);
                 return;
             }
 
@@ -24,7 +24,7 @@ namespace IpWatchDog
             {
                 case "-c":
                 case "-console":
-                    RunAsConsole();
+                    Run(true);
                     break;
 
                 case "-i":
@@ -53,59 +53,27 @@ namespace IpWatchDog
             }
         }
 
-        private static void RunAsService()
+        private static void Run(bool isConsole)
         {
-            var log = new SystemLog(StringConstants.ServiceName);
-            var service  = new Configurator(log).CreateWatchDogService();
-            new ServiceRunner(service, StringConstants.ServiceName).Run();
-        }
-
-        private static void RunAsConsole()
-        {
-            var log = new ConsoleLog();
-            var service = new Configurator(log).CreateWatchDogService();
-            new ConsoleRunner(service).Run();
+            new Configurator(isConsole).CreateRunner().Run();
         }
 
         private static void Install(bool undo)
         {
-            new InstallUtil().Install(undo);
+            new Configurator(true).CreateInstaller().Install(undo);
         }
 
         private static void StartService(bool start)
         {
+            var controller = new Configurator(true).CreateServiceController();
 
-            try
+            if (start)
             {
-                Console.Write(start ? "Starting service... " : "Stopping service... ");
-                var controller = new ServiceController(StringConstants.ServiceName);
-                const int timeout = 10000;
-                var targetStatus = start ? ServiceControllerStatus.Running : ServiceControllerStatus.Stopped;
-
-                if (start)
-                {
-                    controller.Start();
-                }
-                else
-                {
-                    controller.Stop();
-                }
-
-                controller.WaitForStatus(targetStatus, TimeSpan.FromMilliseconds(timeout));
-
-                if (controller.Status != targetStatus)
-                {
-                    Console.WriteLine("Failed");
-                }
-                else
-                {
-                    Console.WriteLine("Success");
-                }
+                controller.Start();
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine("Error");
-                Console.WriteLine(ex);
+                controller.Stop();
             }
         }
 

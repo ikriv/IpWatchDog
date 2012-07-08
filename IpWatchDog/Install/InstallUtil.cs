@@ -9,12 +9,6 @@ namespace IpWatchDog.Install
     {
         ILog _log;
 
-        public InstallUtil()
-            :
-            this(new ConsoleLog())
-        {
-        }
-
         public InstallUtil(ILog log)
         {
             _log = log;

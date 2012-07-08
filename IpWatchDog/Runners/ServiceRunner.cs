@@ -3,7 +3,7 @@ using System.ServiceProcess;
 
 namespace IpWatchDog.Runners
 {
-    class ServiceRunner : ServiceBase
+    class ServiceRunner : ServiceBase, IRunner
     {
         IService _service;
 

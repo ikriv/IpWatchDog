@@ -56,6 +56,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="IpWatchDogService.cs" />
+    <Compile Include="Runners\IRunner.cs" />
     <Compile Include="Log\ConsoleLog.cs" />
     <Compile Include="Log\ILog.cs" />
     <Compile Include="IService.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Runners\ServiceRunner.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ServiceController.cs" />
     <Compile Include="StringConstants.cs" />
     <Compile Include="WebIpRetriever.cs" />
   </ItemGroup>

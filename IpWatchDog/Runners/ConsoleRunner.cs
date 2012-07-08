@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace IpWatchDog.Runners
 {
-    class ConsoleRunner
+    class ConsoleRunner : IRunner
     {
         private IService _service;
         private bool _isRunning;
