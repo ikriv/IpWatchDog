@@ -39,13 +39,26 @@ namespace IpWatchDog
         private IService CreateWatchDogService()
         {
             var config = new AppConfig();
+            var notifier = CreateNotifier(config);
 
             return new IpWatchDogService(
                 _log, 
                 config,
                 new IpPersistor(_log), 
                 new WebIpRetriever(_log), 
-                new MailIpNotifier(_log, config));
+                notifier);
+        }
+
+        private IIpNotifier CreateNotifier(AppConfig config)
+        {
+            if (string.IsNullOrEmpty(config.Command))
+            {
+                return new MailIpNotifier(_log, config);
+            }
+            else
+            {
+                return new CommandIpNotifier(_log, config);
+            }
         }
     }
 }

@@ -30,6 +30,11 @@ namespace IpWatchDog
             get { return Config("Subject"); }
         }
 
+        public string Command
+        {
+            get { return Config("Command"); }
+        }
+
         private string Config(string arg)
         {
             return ConfigurationManager.AppSettings[arg];

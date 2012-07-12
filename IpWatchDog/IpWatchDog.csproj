@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="CommandIpNotifier.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="IIpNotifier.cs" />
     <Compile Include="IIpPersistor.cs" />
@@ -75,7 +76,9 @@
     <Compile Include="WebIpRetriever.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
