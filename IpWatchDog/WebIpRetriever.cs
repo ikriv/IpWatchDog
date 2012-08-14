@@ -11,7 +11,7 @@ namespace IpWatchDog
 
         public WebIpRetriever(ILog log)
         {
-            log = _log;
+            _log = log;
         }
 
         public string GetIp()

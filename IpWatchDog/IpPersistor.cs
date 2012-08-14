@@ -11,6 +11,7 @@ namespace IpWatchDog
 
         public IpPersistor(ILog log)
         {
+            _log = log;
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var folder = Path.Combine(appData, "IpWatchDog");
             Directory.CreateDirectory(folder);
