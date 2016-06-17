@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Mail;
 using IpWatchDog.Log;
 
@@ -22,11 +23,16 @@ namespace IpWatchDog
 
             try
             {
-                var smtpClient = new SmtpClient(_config.SmtpHost);
+                var smtpClient = new SmtpClient(_config.SmtpHost, _config.SmtpPort) {EnableSsl = _config.SmtpUseSsl, DeliveryMethod = SmtpDeliveryMethod.Network };
+                if (_config.SmtpUserName != string.Empty)
+                {
+                    smtpClient.UseDefaultCredentials = false;
+                    smtpClient.Credentials = new NetworkCredential(_config.SmtpUserName, _config.SmtpPassword);
+                }
                 smtpClient.Send(
                     _config.MailFrom,
                     _config.MailTo,
-                    "IP change",
+                    _config.Subject,
                     msg);
             }
             catch (Exception ex)
