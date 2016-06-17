@@ -4,10 +4,10 @@ using IpWatchDog.Log;
 
 namespace IpWatchDog
 {
-    class MailIpNotifier : IIpNotifier
+    internal class MailIpNotifier : IIpNotifier
     {
-        ILog _log;
-        AppConfig _config;
+        private readonly ILog _log;
+        private readonly AppConfig _config;
 
         public MailIpNotifier(ILog log, AppConfig config)
         {
@@ -17,7 +17,7 @@ namespace IpWatchDog
 
         public void OnIpChanged(string oldIp, string newIp)
         {
-            string msg = GetMessage(oldIp, newIp);
+            var msg = GetMessage(oldIp, newIp);
             _log.Write(LogLevel.Warning, msg);
 
             try
@@ -37,7 +37,7 @@ namespace IpWatchDog
 
         private static string GetMessage(string oldIp, string newIp)
         {
-            return String.Format("IP changed from {0} to {1}", oldIp, newIp);
+            return $"IP changed from {oldIp} to {newIp}";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog.Runners
 {
-    interface IRunner
+    internal interface IRunner
     {
         void Run();
     }

@@ -3,18 +3,18 @@ using IpWatchDog.Log;
 
 namespace IpWatchDog
 {
-    class IpWatchDogService : IService
+    internal class IpWatchDogService : IService
     {
-        IIpPersistor _persistor;
-        IIpRetriever _retriever;
-        IIpNotifier _notifier;
-        AppConfig _config;
+        private readonly IIpPersistor _persistor;
+        private readonly IIpRetriever _retriever;
+        private readonly IIpNotifier _notifier;
+        private readonly AppConfig _config;
 
-        Timer _timer;
-        object _isBusy = new object();
-        bool _stopRequested;
-        ILog _log;
-        string _currentIp;
+        private Timer _timer;
+        private readonly object _isBusy = new object();
+        private bool _stopRequested;
+        private readonly ILog _log;
+        private string _currentIp;
 
         public IpWatchDogService(ILog log, AppConfig config, IIpPersistor persistor, IIpRetriever retriever, IIpNotifier notifier)
         {

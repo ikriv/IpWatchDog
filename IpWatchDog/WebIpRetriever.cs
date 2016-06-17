@@ -1,32 +1,57 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using IpWatchDog.Log;
 
 namespace IpWatchDog
 {
-    class WebIpRetriever : IIpRetriever
+    internal class WebIpRetriever : IIpRetriever
     {
-        ILog _log;
+        private readonly AppConfig _config;
+        private readonly ILog _log;
 
-        public WebIpRetriever(ILog log)
+        public WebIpRetriever(ILog log, AppConfig config)
         {
             _log = log;
+            _config = config;
         }
 
         public string GetIp()
         {
             try
             {
-                var request = HttpWebRequest.Create("http://checkip.dyndns.org/");
+                var request = (HttpWebRequest)WebRequest.Create(_config.IPChecker);
                 request.Method = "GET";
-                
-                var response = request.GetResponse();
 
-                using (var reader = new StreamReader(response.GetResponseStream()))
+                using (var response = request.GetResponseNoException())
                 {
-                    var answer = reader.ReadToEnd(); // should have better handling here for very long responses
-                    return ExtractIp(answer);
+                    var webStatus = (int)response.StatusCode;
+                    if (!(webStatus >= 200 && webStatus < 300))
+                    {
+                        _log.Write(LogLevel.Warning, "Could not retrieve current IP from web. Response code: {0}", webStatus);
+                        response.Close();
+                        return null;
+                    }
+                    var responseStream = response.GetResponseStream();
+                    if (responseStream == null)
+                    {
+                        _log.Write(LogLevel.Warning, "Could not retrieve current IP from web. Response is empty.");
+                        response.Close();
+                        return null;
+                    }
+                    using (var reader = new StreamReader(responseStream))
+                    {
+                        var answer = string.Empty;
+                        var i = 0;
+                        while (reader.Peek() >= 0 && i++ < 4096)
+                        {
+                            var c = new char[4096];
+                            reader.Read(c, 0, c.Length);
+                            answer = answer + new string(c);
+                        }
+                        return ExtractIp(answer);
+                    }
                 }
             }
             catch (Exception ex)
@@ -38,13 +63,9 @@ namespace IpWatchDog
 
         private string ExtractIp(string answer)
         {
-            var pattern = "Current IP Address: ";
-            var idx = answer.IndexOf(pattern);
-            if (idx == -1) return null;
-            var start = idx + pattern.Length;
-            var end = answer.IndexOf("<", start);
-            if (end == -1) return null;
-            return answer.Substring(start, end - start);
+            var regex = new Regex(_config.IPCheckerRegExp, RegexOptions.Compiled, new TimeSpan(0,0,5));
+            var r = regex.Match(answer);
+            return r.Success ? r.Value : null;
         }
     }
 }

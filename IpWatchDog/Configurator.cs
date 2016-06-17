@@ -4,10 +4,10 @@ using IpWatchDog.Runners;
 
 namespace IpWatchDog
 {
-    class Configurator
+    internal class Configurator
     {
-        private ILog _log;
-        private bool _isConsole;
+        private readonly ILog _log;
+        private readonly bool _isConsole;
 
         public Configurator(bool isConsole)
         {
@@ -45,7 +45,7 @@ namespace IpWatchDog
                 _log, 
                 config,
                 new IpPersistor(_log), 
-                new WebIpRetriever(_log), 
+                new WebIpRetriever(_log, config), 
                 notifier);
         }
 
@@ -55,10 +55,7 @@ namespace IpWatchDog
             {
                 return new MailIpNotifier(_log, config);
             }
-            else
-            {
-                return new CommandIpNotifier(_log, config);
-            }
+            return new CommandIpNotifier(_log, config);
         }
     }
 }

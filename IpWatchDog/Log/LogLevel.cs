@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog.Log
 {
-    enum LogLevel
+    internal enum LogLevel
     {
         Debug,
         Info,

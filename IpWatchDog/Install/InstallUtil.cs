@@ -5,9 +5,9 @@ using IpWatchDog.Log;
 
 namespace IpWatchDog.Install
 {
-    class InstallUtil
+    internal class InstallUtil
     {
-        ILog _log;
+        private readonly ILog _log;
 
         public InstallUtil(ILog log)
         {

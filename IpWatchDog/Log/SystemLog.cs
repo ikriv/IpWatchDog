@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace IpWatchDog.Log
 {
-    class SystemLog : ILog
+    internal class SystemLog : ILog
     {
-        private EventLog _eventLog;
+        private readonly EventLog _eventLog;
 
         public SystemLog(string eventSourceName)
         {
@@ -21,7 +20,7 @@ namespace IpWatchDog.Log
         public void Write(LogLevel level, string format, params object[] args)
         {
             if (_eventLog == null) return;
-            var message = String.Format(format, args);
+            var message = string.Format(format, args);
             _eventLog.WriteEntry(message, ToEntryType(level));
         }
 

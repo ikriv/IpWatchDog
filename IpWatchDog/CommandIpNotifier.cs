@@ -5,16 +5,16 @@ using System.IO;
 
 namespace IpWatchDog
 {
-    class CommandIpNotifier : IIpNotifier
+    internal class CommandIpNotifier : IIpNotifier
     {
-        string _command;
-        ILog _log;
+        private readonly string _command;
+        private readonly ILog _log;
 
         public CommandIpNotifier(ILog log, AppConfig config)
         {
             _log = log;
             _command = config.Command.Trim();
-            if (String.IsNullOrEmpty(_command))
+            if (string.IsNullOrEmpty(_command))
             {
                 throw new ArgumentException("Command cannot be null or empty");
             }

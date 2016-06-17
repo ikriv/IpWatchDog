@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog
 {
-    interface IIpRetriever
+    internal interface IIpRetriever
     {
         string GetIp();
     }

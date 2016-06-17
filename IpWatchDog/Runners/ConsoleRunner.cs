@@ -3,17 +3,17 @@ using System.Threading;
 
 namespace IpWatchDog.Runners
 {
-    class ConsoleRunner : IRunner
+    internal class ConsoleRunner : IRunner
     {
-        private IService _service;
+        private readonly IService _service;
         private bool _isRunning;
-        private object _monitor = new object();
+        private readonly object _monitor = new object();
 
         public ConsoleRunner(IService service)
         {
             if (service == null) throw new ArgumentNullException("service");
             _service = service;
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(OnCancel);
+            Console.CancelKeyPress += OnCancel;
         }
 
         public void Run()
@@ -28,7 +28,7 @@ namespace IpWatchDog.Runners
             }
         }
 
-        void OnCancel(object sender, ConsoleCancelEventArgs e)
+        private void OnCancel(object sender, ConsoleCancelEventArgs e)
         {
             if (!_isRunning) return;
 

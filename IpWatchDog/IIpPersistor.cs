@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog
 {
-    interface IIpPersistor : IIpRetriever
+    internal interface IIpPersistor : IIpRetriever
     {
         void SaveIp(string ip);
     }

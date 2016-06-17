@@ -2,7 +2,7 @@
 
 namespace IpWatchDog.Log
 {
-    class ConsoleLog : ILog
+    internal class ConsoleLog : ILog
     {
         public void Write(LogLevel level, string format, params object[] args)
         {

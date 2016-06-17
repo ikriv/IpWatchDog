@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog
 {
-    interface IService
+    internal interface IService
     {
         void Start();
         void Stop();

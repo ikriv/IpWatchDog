@@ -4,10 +4,10 @@ using IpWatchDog.Log;
 
 namespace IpWatchDog
 {
-    class ServiceController : IService
+    internal class ServiceController : IService
     {
-        System.ServiceProcess.ServiceController _controller;
-        ILog _log;
+        private readonly System.ServiceProcess.ServiceController _controller;
+        private readonly ILog _log;
 
         public ServiceController(ILog log)
         {
@@ -23,7 +23,7 @@ namespace IpWatchDog
                 const int timeout = 10000;
                 _controller.Start();
 
-                var targetStatus = ServiceControllerStatus.Running;
+                const ServiceControllerStatus targetStatus = ServiceControllerStatus.Running;
                 _controller.WaitForStatus(targetStatus, TimeSpan.FromMilliseconds(timeout));
 
                 if (_controller.Status == targetStatus)
@@ -49,7 +49,7 @@ namespace IpWatchDog
                 const int timeout = 10000;
                 _controller.Stop();
 
-                var targetStatus = ServiceControllerStatus.Stopped;
+                const ServiceControllerStatus targetStatus = ServiceControllerStatus.Stopped;
                 _controller.WaitForStatus(targetStatus, TimeSpan.FromMilliseconds(timeout));
 
                 if (_controller.Status == targetStatus)

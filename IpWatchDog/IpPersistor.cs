@@ -4,10 +4,10 @@ using IpWatchDog.Log;
 
 namespace IpWatchDog
 {
-    class IpPersistor : IIpPersistor
+    internal class IpPersistor : IIpPersistor
     {
-        private string _path;
-        private ILog _log;
+        private readonly string _path;
+        private readonly ILog _log;
 
         public IpPersistor(ILog log)
         {

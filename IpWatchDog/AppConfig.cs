@@ -1,41 +1,26 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace IpWatchDog
 {
     class AppConfig
     {
-        public int PollingTimeoutSeconds
-        {
-            get { return Int32.Parse(Config("PollingTimeoutSeconds")); }
-        }
+        public int PollingTimeoutSeconds => int.Parse(Config("PollingTimeoutSeconds"));
 
-        public string MailFrom
-        {
-            get { return Config("MailFrom"); }
-        }
+        public string MailFrom => Config("MailFrom");
 
-        public string MailTo
-        {
-            get { return Config("MailTo"); }
-        }
+        public string MailTo => Config("MailTo");
 
-        public string SmtpHost
-        {
-            get { return Config("SmtpHost"); }
-        }
+        public string SmtpHost => Config("SmtpHost");
 
-        public string Subject
-        {
-            get { return Config("Subject"); }
-        }
+        public string Subject => Config("Subject");
 
-        public string Command
-        {
-            get { return Config("Command"); }
-        }
+        public string Command => Config("Command");
 
-        private string Config(string arg)
+        public string IPChecker => Config("IPChecker");
+
+        public string IPCheckerRegExp => Config("IPCheckerRegExp");
+
+        private static string Config(string arg)
         {
             return ConfigurationManager.AppSettings[arg];
         }

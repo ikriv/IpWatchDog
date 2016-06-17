@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog
 {
-    interface IIpNotifier
+    internal interface IIpNotifier
     {
         void OnIpChanged(string oldIp, string newIp);
     }

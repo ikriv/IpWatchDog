@@ -1,6 +1,6 @@
 ﻿namespace IpWatchDog
 {
-    class StringConstants
+    internal class StringConstants
     {
         public const string ServiceName = "IpWatchDog";
         public const string ServiceDisplayName = "IP Watchdog";

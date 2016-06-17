@@ -1,17 +1,13 @@
 ﻿using System;
-using System.ServiceProcess;
-using IpWatchDog.Runners;
-using IpWatchDog.Log;
-using IpWatchDog.Install;
 
 namespace IpWatchDog
 {
-    static class Program
+    public static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length == 0)
             {
