@@ -24,9 +24,9 @@ namespace IpWatchDog
 
         public string Command => Config("Command");
 
-        public string IPChecker => Config("IPChecker");
+        public string IpCheckerUrl => Config("IpCheckerUrl");
 
-        public string IPCheckerRegExp => Config("IPCheckerRegExp");
+        public string IpCheckerRegExp => Config("IpCheckerRegExp");
 
         private static string Config(string arg)
         {

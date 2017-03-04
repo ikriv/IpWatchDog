@@ -21,7 +21,7 @@ namespace IpWatchDog
         {
             try
             {
-                var request = (HttpWebRequest)WebRequest.Create(_config.IPChecker);
+                var request = (HttpWebRequest)WebRequest.Create(_config.IpCheckerUrl);
                 request.Method = "GET";
 
                 using (var response = request.GetResponseNoException())
@@ -63,7 +63,7 @@ namespace IpWatchDog
 
         private string ExtractIp(string answer)
         {
-            var regex = new Regex(_config.IPCheckerRegExp, RegexOptions.Compiled);
+            var regex = new Regex(_config.IpCheckerRegExp, RegexOptions.Compiled);
             var r = regex.Match(answer);
             return r.Success ? r.Value : null;
         }
