@@ -63,7 +63,7 @@ namespace IpWatchDog
 
         private string ExtractIp(string answer)
         {
-            var regex = new Regex(_config.IPCheckerRegExp, RegexOptions.Compiled, new TimeSpan(0,0,5));
+            var regex = new Regex(_config.IPCheckerRegExp, RegexOptions.Compiled);
             var r = regex.Match(answer);
             return r.Success ? r.Value : null;
         }
