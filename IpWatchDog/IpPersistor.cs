@@ -12,7 +12,7 @@ namespace IpWatchDog
         public IpPersistor(ILog log)
         {
             _log = log;
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var folder = Path.Combine(appData, "IpWatchDog");
             Directory.CreateDirectory(folder);
             _path = Path.Combine(folder, "currentIp.txt");
