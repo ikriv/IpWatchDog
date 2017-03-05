@@ -27,12 +27,13 @@ namespace IpWatchDog
                 using (var response = request.GetResponseNoException())
                 {
                     var webStatus = (int)response.StatusCode;
-                    if (!(webStatus >= 200 && webStatus < 300))
+                    if (!IsSuccess(webStatus))
                     {
                         _log.Write(LogLevel.Warning, "Could not retrieve current IP from web. Response code: {0}", webStatus);
                         response.Close();
                         return null;
                     }
+
                     var responseStream = response.GetResponseStream();
                     if (responseStream == null)
                     {
@@ -40,16 +41,12 @@ namespace IpWatchDog
                         response.Close();
                         return null;
                     }
+
                     using (var reader = new StreamReader(responseStream))
                     {
-                        var answer = string.Empty;
-                        var i = 0;
-                        while (reader.Peek() >= 0 && i++ < 4096)
-                        {
-                            var c = new char[4096];
-                            reader.Read(c, 0, c.Length);
-                            answer = answer + new string(c);
-                        }
+                        var buffer = new char[_config.MaxHttpResponseLength];
+                        reader.Read(buffer, 0, buffer.Length);
+                        var answer = new string(buffer);
                         return ExtractIp(answer);
                     }
                 }
@@ -61,11 +58,19 @@ namespace IpWatchDog
             }
         }
 
+        private static bool IsSuccess(int status)
+        {
+            return status >= 200 && status <= 299;
+        }
+
         private string ExtractIp(string answer)
         {
-            var regex = new Regex(_config.IpCheckerRegExp, RegexOptions.Compiled);
-            var r = regex.Match(answer);
-            return r.Success ? r.Value : null;
+            var regex = new Regex(_config.IpCheckerRegEx, RegexOptions.Compiled);
+            
+            var match = regex.Match(answer);
+            if (!match.Success) return null;
+
+            return match.Groups["ip"].Value;
         }
     }
 }

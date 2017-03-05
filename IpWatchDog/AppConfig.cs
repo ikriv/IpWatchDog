@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace IpWatchDog
 {
@@ -26,7 +27,10 @@ namespace IpWatchDog
 
         public string IpCheckerUrl => Config("IpCheckerUrl");
 
-        public string IpCheckerRegExp => Config("IpCheckerRegExp");
+        public string IpCheckerRegEx => Config("IpCheckerRegEx");
+
+        public int MaxHttpResponseLength
+            => Math.Min(100*1024*1024, Math.Max(1024, int.Parse(Config("MaxHttpResponseLength"))));
 
         private static string Config(string arg)
         {
